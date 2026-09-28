@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimex AM - Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --border-color: rgba(56, 189, 248, 0.15);
+            --accent-cyan: #38bdf8;
+            --accent-blue: #3b82f6;
+            --accent-glow: rgba(56, 189, 248, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --gradient-text: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            animation: float 18s ease-in-out infinite alternate;
+        }
+
+        .glow-1 {
+            width: 450px;
+            height: 450px;
+            background: #3b82f6;
+            top: -100px;
+            left: -100px;
+        }
+
+        .glow-2 {
+            width: 550px;
+            height: 550px;
+            background: #06b6d4;
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -9s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 60px) scale(1.15); }
+        }
+
+        header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .brand-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .brand-logo span {
+            color: var(--accent-cyan);
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: rgba(30, 41, 59, 0.7);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        main {
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 10;
+            margin: auto;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 30px;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .typewriter-box {
+            min-height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .typewriter-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 700px;
+            font-weight: 400;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.3em;
+            background-color: var(--accent-cyan);
+            vertical-align: middle;
+            margin-left: 4px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.8rem 1.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .service-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid var(--border-color);
+            padding: 2rem 2.5rem;
+            border-radius: 20px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-label {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .contact-email {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-email:hover {
+            color: #fff;
+            text-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        footer {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 600px) {
+            header { padding: 1.5rem 1rem; }
+            main { padding: 1.5rem 1rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .contact-box { padding: 1.5rem 1.2rem; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <header>
+        <div class="brand-logo">MULTIMEX <span>AM</span></div>
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-cs" onclick="switchLanguage('cs')">CZ</button>
+            <button class="lang-btn" id="btn-en" onclick="switchLanguage('en')">EN</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="badge">
+            <span class="badge-dot"></span>
+            <span id="badge-text">PŘIPRAVUJEME PRO VÁS NOVÝ WEB</span>
+        </div>
+
+        <h1 id="main-title">Mezinárodní logistika bez hranic</h1>
+
+        <div class="typewriter-box">
+            <p class="typewriter-text"><span id="typed-text"></span><span class="cursor"></span></p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🚛</div>
+                <div class="service-title" id="s1-title">Silniční & Letecká doprava</div>
+                <div class="service-desc" id="s1-desc">Rychlá a bezpečná přeprava nákladu mezi Českem a Arménií.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📦</div>
+                <div class="service-title" id="s2-title">Celní odbavení</div>
+                <div class="service-desc" id="s2-desc">Kompletní vyřízení celní dokumentace bez starostí.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏭</div>
+                <div class="service-title" id="s3-title">Skladování & Distribuce</div>
+                <div class="service-desc" id="s3-desc">Moderní skladovací prostory a logistický servis na míru.</div>
+            </div>
+        </div>
+
+        <div class="contact-box">
+            <div class="contact-label" id="contact-label">Máte dotaz nebo plánujete přepravu? Napište nám:</div>
+            <a href="mailto:info@multimex-am.cz" class="contact-email">info@multimex-am.cz</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Multimex AM s.r.o. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const translations = {
+            cs: {
+                badge: "PŘIPRAVUJEME PRO VÁS NOVÝ WEB",
+                title: "Mezinárodní logistika bez hranic",
+                typingText: "Spolehlivé, rychlé a moderní přepravní služby na míru. Propojujeme Českou republiku a Arménii pro váš úspěšný business.",
+                s1Title: "Silniční & Letecká doprava",
+                s1Desc: "Rychlá a bezpečná přeprava nákladu mezi Českem a Arménií.",
+                s2Title: "Celní odbavení",
+                s2Desc: "Kompletní vyřízení celní dokumentace a legislativy bez starostí.",
+                s3Title: "Skladování & Distribuce",
+                s3Desc: "Moderní skladovací prostory a bezpečný logistický servis na míru.",
+                contactLabel: "Máte dotaz nebo plánujete přepravu? Napište nám:"
+            },
+            en: {
+                badge: "NEW WEBSITE COMING SOON",
+                title: "International Logistics Without Borders",
+                typingText: "Reliable, fast, and modern transport solutions tailored to your needs. Connecting the Czech Republic and Armenia for your business growth.",
+                s1Title: "Road & Air Freight",
+                s1Desc: "Fast and safe cargo transportation between the Czech Republic and Armenia.",
+                s2Title: "Customs Clearance",
+                s2Desc: "Full customs documentation handling and legal compliance hassle-free.",
+                s3Title: "Warehousing & Distribution",
+                s3Desc: "Modern storage facilities and customized logistics distribution services.",
+                contactLabel: "Have questions or planning a shipment? Contact us:"
+            }
+        };
+
+        let currentLang = 'cs';
+        let typingTimeout;
+        let charIndex = 0;
+
+        function typeWriter(text) {
+            const typedTextElement = document.getElementById("typed-text");
+            if (charIndex < text.length) {
+                typedTextElement.textContent += text.charAt(charIndex);
+                charIndex++;
+                typingTimeout = setTimeout(() => typeWriter(text), 30);
+            }
+        }
+
+        function startTypewriter(text) {
+            clearTimeout(typingTimeout);
+            const typedTextElement = document.getElementById("typed-text");
+            typedTextElement.textContent = "";
+            charIndex = 0;
+            typeWriter(text);
+        }
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            document.getElementById('btn-cs').classList.toggle('active', lang === 'cs');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            const t = translations[lang];
+            document.getElementById('badge-text').textContent = t.badge;
+            document.getElementById('main-title').textContent = t.title;
+            document.getElementById('s1-title').textContent = t.s1Title;
+            document.getElementById('s1-desc').textContent = t.s1Desc;
+            document.getElementById('s2-title').textContent = t.s2Title;
+            document.getElementById('s2-desc').textContent = t.s2Desc;
+            document.getElementById('s3-title').textContent = t.s3Title;
+            document.getElementById('s3-desc').textContent = t.s3Desc;
+            document.getElementById('contact-label').textContent = t.contactLabel;
+
+            startTypewriter(t.typingText);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            switchLanguage('cs');
+        });
+    </script>
+</body>
+</html>
